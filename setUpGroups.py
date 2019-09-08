@@ -7,9 +7,9 @@ from math import ceil
 gophishClient = GophishUtility.CreateGophishClient()
 
 
-def createGroups(test = True):
+def createGroups(csvFilename, testFlag):
     students = [] # list of lists of users
-    with open('test.csv') as studentInfo:
+    with open(csvFilename) as studentInfo:
         infoReader = csv.DictReader(studentInfo)
         count = 0
         index = 0
@@ -23,8 +23,9 @@ def createGroups(test = True):
     # Split the students into 20 groups of equal length. Each group will be adjusted later after seeing results.
     groups = []
     count = 0
-    for i in range(0, len(students), ceil(len(students)/GophishUtility.numGroups)):
-        targets = students[i:i+ceil(len(students)/GophishUtility.numGroups)]
+    sizeOfGroups = ceil(len(students)/GophishUtility.numGroups)
+    for i in range(0, len(students), sizeOfGroups):
+        targets = students[i:i+sizeOfGroups]
         newGroup = Group(name = GophishUtility.groupNames[count], targets=targets)
         groups.append(newGroup)
         count = count + 1
@@ -34,8 +35,10 @@ def createGroups(test = True):
     # Load groups into Gophish
     for group in groups:
         response = gophishClient.groups.post(group)
-        if test:
+        if testFlag:
             gophishClient.groups.delete(response.id)
 
 
-createGroups()
+runTest = True
+csvFilename = 'sigchiStudents.csv'
+createGroups(csvFilename, runTest)
