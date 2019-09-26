@@ -4,7 +4,7 @@ from math import ceil
 import os
 
 # This client has all methods attached to it necessary to create, read, and run our campaigns.
-gophishClient = GophishUtility.CreateGophishClient()
+gophishClient = GophishUtility.createGophishClient()
 
 # Gets all campaigns that are currently In Progress and are named something that can be found in the GophishUtility.groupNames list
 # in the gophishUtility.py file.
@@ -22,15 +22,10 @@ def writeResultsTo(filename):
 
         resultsFile.close()
 
-# Completes the old campaigns that are passed to it
-def completeOldCampaigns(campaigns):
-    for campaign in campaigns:
-        gophishClient.campaigns.complete(campaign.id)
-
 campaigns = getOurCampaigns()
 
 # Need to change day0results.csv to match whatever day this query is for. For example, this query runs on day 2 so the results are for day 0.
 # Day 7 should create day2results.csv and Day 30 should create day7results.csv. Finally we need a final query that will run say Day 40 and create
 # day30results.csv.
-writeResultsTo('day30results.csv')
-completeOldCampaigns(campaigns)
+GophishUtility.writeResultsTo('day30results.csv', campaigns)
+GophishUtility.markListCampaignsComplete(campaigns)
