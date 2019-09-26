@@ -6,7 +6,7 @@ import os
 # This client has all methods attached to it necessary to create, read, and run our campaigns.
 gophishClient = GophishUtility.CreateGophishClient()
 
-# Gets all campaigns that are currently In Progress and are named something that can be found in the GophishUtility.groupNames list
+# Gets all campaigns that are currently not "Completed" and are named something that can be found in the GophishUtility.groupNames list
 # in the gophishUtility.py file.
 def getOurCampaigns():
     campaigns = [campaign for campaign in gophishClient.campaigns.get() if campaign.name in GophishUtility.groupNames and campaign.status != "Completed"]
@@ -46,7 +46,7 @@ def setUpNewGroups(campaigns):
 
 
     # Load groups into Gophish
-    for group in groups[:1]:
+    for group in [nonEmptyGroups for nonEmptyGroups in groups if nonEmptyGroups .targets]:
         response = gophishClient.groups.post(group)
         print(response.name)
 

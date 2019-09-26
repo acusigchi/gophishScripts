@@ -46,7 +46,7 @@ def setUpNewGroups(campaigns):
 
 
     # Load groups into Gophish
-    for group in groups[:1]:
+    for group in [nonEmptyGroups for nonEmptyGroups in groups if nonEmptyGroups .targets]:
         response = gophishClient.groups.post(group)
         print(response.name)
 
