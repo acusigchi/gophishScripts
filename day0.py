@@ -15,7 +15,7 @@ def setUpNewGroupsByCSV(csvFilename):
         count = 0
         index = 0
         for student in infoReader:
-            newUser = User(first_name = student['firstName'], last_name = student['lastName'], email = student['email']+"@example.com")
+            newUser = User(first_name = student['firstName'], last_name = student['lastName'], email = student['email'])
             students.append(newUser)
             count = count + 1
 
@@ -36,6 +36,7 @@ def setUpNewGroupsByCSV(csvFilename):
     # Load groups into Gophish
     for group in groups:
         response = gophishClient.groups.post(group)
+        print(response.name, "has been created on the server")
         if testFlag:
             gophishClient.groups.delete(response.id)
 
@@ -80,9 +81,10 @@ def startNewCampaigns(groups):
             page=chooseLandingPage(pageSet)
         )
 
-        gophishClient.campaigns.post(campaign)
+        response = gophishClient.campaigns.post(campaign)
+        print(response.name, "Campaign has been started")
 
 csvFilename = 'sigchiStudents.csv'
 groups = setUpNewGroups(csvFilename)
 
-startCampaigns(groups, campaigns)
+startCampaigns(groups)
