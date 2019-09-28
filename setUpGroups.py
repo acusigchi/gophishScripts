@@ -4,7 +4,7 @@ import csv
 from math import ceil
 
 # This client has all methods attached to it necessary to create, read, and run our campaigns.
-gophishClient = GophishUtility.CreateGophishClient()
+gophishClient = GophishUtility.createGophishClient()
 
 
 def createGroups(csvFilename, testFlag):
