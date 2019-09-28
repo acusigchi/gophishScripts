@@ -13,24 +13,19 @@ def setUpNewGroupsByCSV(csvFilename):
     students = [] # lists of users
     with open(csvFilename) as studentInfo:
         infoReader = csv.DictReader(studentInfo)
-        count = 0
-        index = 0
         for student in infoReader:
             newUser = User(first_name = student['firstName'], last_name = student['lastName'], email = student['email'])
             students.append(newUser)
-            count = count + 1
 
     print("Students have been loaded into User objects")
 
     # Split the students into 20 groups of equal length. Each group will be adjusted later after seeing results.
     groups = []
-    count = 0
-    sizeOfGroups = ceil(len(students)/GophishUtility.numGroups)
-    for i in range(0, len(students), sizeOfGroups):
-        targets = students[i:i+sizeOfGroups]
-        newGroup = Group(name = GophishUtility.groupNames[count], targets=targets)
+    for i in range(GophishUtility.numGroups):
+        targets = [students[j] for j in range(len(students)) if j % GophishUtility.numGroups == i]
+        newGroup = Group(name = GophishUtility.groupNames[i], targets=targets)
         groups.append(newGroup)
-        count = count + 1
+        print(newGroup.name)
 
     print("Users have been loaded into Group objects")
 
@@ -63,6 +58,8 @@ def startNewCampaigns(groups):
         response = gophishClient.campaigns.post(campaign)
         print(response.name, "Campaign has been started")
 
+campaigns = GophishUtility.getOurCampaigns()
+GophishUtility.markListCampaignsComplete(campaigns)
 csvFilename = 'sigchiStudents.csv'
 groups = setUpNewGroupsByCSV(csvFilename)
 startNewCampaigns(groups)
