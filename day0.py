@@ -60,6 +60,6 @@ def startNewCampaigns(groups):
 
 campaigns = GophishUtility.getOurCampaigns()
 GophishUtility.markListCampaignsComplete(campaigns)
-csvFilename = 'sigchiStudents.csv'
+csvFilename = 'studentList.csv'
 groups = setUpNewGroupsByCSV(csvFilename)
 startNewCampaigns(groups)

@@ -5,7 +5,8 @@ from gophish.models import *
 # These are hard-coded values that should not be changed without consulting John Marsden (jmm15f@acu.edu)
 class GophishUtility:
     apiKey = "a13fe2c8d9b2fff652fed82530e4c6db5fe7acc0012808968a113d8cb724941a"
-    baseUri = "https://www.acu-edu.info:3333"
+    #baseUri = "https://www.acu-edu.info:3333"
+    baseUri = "https://localhost:3333"
     numGroups = 20
     groupNames = [
         'Email Set 1 - Expert Facts',
